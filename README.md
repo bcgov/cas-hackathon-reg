@@ -9,6 +9,11 @@
 5. To run the webserver locally, cd in /api/registration, then run `python3 manage.py runserver` - if it's running correctly, the terminal output will say that the development server is running on your local host on a port (default :8000).
     - the first time you run this, you'll get warning messages saying that you have unapplied migrations.
 
+## Setup for local database development
+
+1. Ensure your Postgres server is running locally
+2. Create a new database
+3. Update the values in `api/registration/registration/settings.py` with the connection details for your Postgres database: the `DATABASES.default.ENGINE` value should be `'django.db.backends.postgresql'`
 
 #### Done once, don't need to do again
 
