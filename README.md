@@ -12,4 +12,5 @@
 
 #### Done once, don't need to do again
 
-- For initial setup, I ran `django-admin startproject registration` from within the /api directory. This auto-generated a subfolder called /registration (and a subfolder by the same name), and a default manage.py file
+- For initial setup, I ran `django-admin startproject registration` from within the /api directory. This auto-generated a subfolder called /registration (and a subfolder by the same name), and a default manage.py file. Note that here, `registration` is the name of the project, not the name of the app. In hindsight, something like `obps` would have been a better project name than `registration`...
+- From within the /api/registration folder, I ran `python3 manage.py startapp reg` to create a new app called `reg` within the `registration` project. This command auto-generated a subdirectory called `reg` and inserted some default files and a `migrations` subfolder.
