@@ -8,13 +8,16 @@ class Operator (models.Model):
     cra_business_number = models.CharField(max_length=1000)
 
 class Facility(models.Model):
-    operator_id = models.ForeignKey(Operator, on_delete=models.CASCADE)
+    operator_id = models.ForeignKey(Operator, on_delete=models.CASCADE, related_name='facilities')
     swrs_facility_id = models.IntegerField()
     facility_name = models.CharField(max_length=1000)
     facility_type = models.CharField(max_length=1000)
     status = models.CharField(max_length=1000)
     latitude = models.FloatField()
     longitude = models.FloatField()
+    
+    class Meta:
+        verbose_name_plural = "Facilities"
 
 class User(models.Model):
     first_name = models.CharField(max_length=1000)
@@ -23,7 +26,7 @@ class User(models.Model):
     user_guid = models.CharField(max_length=1000)
 
 class UserOperator(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    operator_id = models.ForeignKey(Operator, on_delete=models.DO_NOTHING)
+    user_id = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='user_operators')
+    operator_id = models.ForeignKey(Operator, on_delete=models.DO_NOTHING, related_name='user_operators')
     role = models.CharField(max_length=100)
     status = models.CharField(max_length=1000)
