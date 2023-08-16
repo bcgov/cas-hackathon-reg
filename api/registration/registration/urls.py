@@ -16,7 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from reg import views
 
 urlpatterns = [
     path('s/administration/raw/', admin.site.urls),
+    path("operators/", views.operators, name="operators"),
+    path("operator/<int:operator_id>/", views.operator, name="operators")
 ]
