@@ -3,7 +3,11 @@ from django.http import HttpResponse
 from .models import Operator
 
 def operator(request, operator_id):
-    return HttpResponse("You're looking at operator {}".format(operator_id))
+    operator = Operator.objects.get(id=operator_id)
+    context = {
+        "operator": operator,
+    }
+    return render(request, "operator/index.html", context)
 
 def operators(request):
     all_operators_list = Operator.objects.order_by("business_legal_name")
