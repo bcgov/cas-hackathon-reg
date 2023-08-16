@@ -6,6 +6,9 @@ class Operator (models.Model):
     english_trade_name = models.CharField(max_length=1000)
     french_trade_name = models.CharField(max_length=1000)
     cra_business_number = models.CharField(max_length=1000)
+    
+    def __str__(self):
+        return self.business_legal_name
 
 class Facility(models.Model):
     operator_id = models.ForeignKey(Operator, on_delete=models.CASCADE, related_name='facilities')
@@ -24,6 +27,9 @@ class User(models.Model):
     last_name = models.CharField(max_length=1000)
     email = models.CharField(max_length=1000)
     user_guid = models.CharField(max_length=1000)
+    
+    def __str__(self) -> str:
+        return self.first_name + ' ' + self.last_name
 
 class UserOperator(models.Model):
     
