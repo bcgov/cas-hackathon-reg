@@ -26,7 +26,17 @@ class User(models.Model):
     user_guid = models.CharField(max_length=1000)
 
 class UserOperator(models.Model):
+    
+    class Roles(models.TextChoices):
+        ADMIN = 'admin', 'Admin'
+        SUPERADMIN = 'superadmin', 'SuperAdmin'
+    
+    class Statuses(models.TextChoices):
+        PENDING = 'pending', 'Pending'
+        APPROVED = 'approved', 'Approved'
+        REJECTED = 'rejected', 'Rejected'
+    
     user_id = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='user_operators')
     operator_id = models.ForeignKey(Operator, on_delete=models.DO_NOTHING, related_name='user_operators')
-    role = models.CharField(max_length=100)
-    status = models.CharField(max_length=1000)
+    role = models.CharField(max_length=100, choices=Roles.choices)
+    status = models.CharField(max_length=1000, choices=Statuses.choices)
