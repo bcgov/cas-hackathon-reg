@@ -1,0 +1,24 @@
+[
+  {
+    "model": "reg.operator",
+    "pk": 1,
+    "fields": {
+      "swrs_org_id": 1,
+      "business_legal_name": "Test Org 1",
+      "english_trade_name": "Test Org 1 English",
+      "french_trade_name": "Test Org 1 French",
+      "cra_business_number": "123456789"
+    }
+  },
+  {
+    "model": "reg.operator",
+    "pk": 2,
+    "fields": {
+      "swrs_org_id": 2,
+      "business_legal_name": "Test Org 2",
+      "english_trade_name": "Test Org 2 English",
+      "french_trade_name": "Test Org 2 French",
+      "cra_business_number": "987654321"
+    }
+  }
+]
