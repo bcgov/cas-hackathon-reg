@@ -1,11 +1,11 @@
 {% if operator %}
-    <ul>
-        <li>Business Legal Name: {{ operator.business_legal_name }}</li>
-        <li>English Trade Name: {{ operator.english_trade_name }}</li>
-        <li>French Trade Name: {{ operator.french_trade_name }}</li>
-        <li>CRA Business Number: {{ operator.cra_business_number }}</li>
-        <li>Status: {{ operator.status }}</li>
-    </ul>
+<ul>
+  <li>Business Legal Name: {{ operator.business_legal_name }}</li>
+  <li>English Trade Name: {{ operator.english_trade_name }}</li>
+  <li>French Trade Name: {{ operator.french_trade_name }}</li>
+  <li>CRA Business Number: {{ operator.cra_business_number }}</li>
+  <li>Status: {{ operator.status }}</li>
+</ul>
 {% else %}
-    <p>No data available.</p>
+<p>No data available.</p>
 {% endif %}

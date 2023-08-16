@@ -11,6 +11,12 @@ from .models import Organization
 from rest_framework import generics
 from rest_framework.decorators import api_view
 
+def operator(request, operator_id):
+    operator = Operator.objects.get(id=operator_id)
+    context = {
+        "operator": operator,
+    }
+    return render(request, "operator/index.html", context)
 
 @api_view(['GET', 'PUT'])
 def organization(request, organization_id):
