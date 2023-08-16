@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import include, path
+from reg import views
 
 urlpatterns = [
     path('', include(('registration.api_urls', 'api'), namespace='api')),

@@ -9,6 +9,10 @@
 5. To run the webserver locally, cd in /api/registration, then run `python3 manage.py runserver` - if it's running correctly, the terminal output will say that the development server is running on your local host on a port (default :8000).
    - the first time you run this, you'll get warning messages saying that you have unapplied migrations.
 6. To run the database migration locally, execute `python3 manage.py migrate`
+   - the first time you run this, you'll get warning messages saying that you have unapplied migrations.
+7. To run the database migration locally, execute `python3 manage.py migrate`
+8. To access the Django admin panel locally, execute `python3 manage.py createsuperuser` to create a superuser in your local database. You'll need to remember the credentials you create in order to access the admin panel when running the Django server locally.
+9. Log in to the admin panel by navigating to the '/s/administration/raw' endpoint (at the address your server is running on)
 
 ## Setup for local database development
 
