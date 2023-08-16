@@ -45,4 +45,4 @@ class UserOperator(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='user_operators')
     operator_id = models.ForeignKey(Operator, on_delete=models.DO_NOTHING, related_name='user_operators')
     role = models.CharField(max_length=100, choices=Roles.choices)
-    status = models.CharField(max_length=1000, choices=Statuses.choices)
+    status = models.CharField(max_length=1000, choices=Statuses.choices, default=Statuses.PENDING)
