@@ -3,6 +3,7 @@
 import validator from "@rjsf/validator-ajv8";
 import Form from "@rjsf/core";
 import { RJSFSchema } from "@rjsf/utils";
+import { useEffect } from "react";
 
 const schema: RJSFSchema = {
   title: "Organization Access Request",
@@ -17,10 +18,20 @@ const schema: RJSFSchema = {
 
 const log = (type: any) => console.log.bind(console, type);
 //  we will populate the form ourselves because we already know operator id and user id from fixtures. Basically, the user is just clicking a button to request
-export default function accessRequest() {
-  const endpoint = "http://127.0.0.1:8000/user_operators/";
+export default function AccessRequest() {
+  const userOperatorEndpoint = "http://127.0.0.1:8000/user_operators/";
+  const userEndpoint = `http://127.0.0.1:8000/users/${1}`;
+
+  useEffect(() => {
+    fetch(userEndpoint)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
+  }, []);
+
   const submitHandler = (data: any) => {
-    fetch(endpoint, {
+    fetch(userOperatorEndpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
