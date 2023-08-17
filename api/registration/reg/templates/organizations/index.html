@@ -1,0 +1,11 @@
+{% if all_organizations_list %}
+    <ul>
+        {% for organization in all_organizations_list %}
+        <li>
+            <a href="{% url 'organizations' organization.id %}">{{ organization.business_legal_name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No organizations available.</p>
+{% endif %}

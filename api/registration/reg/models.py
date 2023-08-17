@@ -1,6 +1,11 @@
 from django.db import models
 
 class Organization (models.Model):
+    class Statuses(models.TextChoices):
+        PENDING = 'pending', 'Pending'
+        APPROVED = 'approved', 'Approved'
+        DENIED = 'denied', 'Denied'
+
     swrs_org_id = models.IntegerField()
     business_legal_name = models.CharField(max_length=1000)      
     english_trade_name = models.CharField(max_length=1000)
