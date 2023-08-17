@@ -1,5 +1,5 @@
-from .serializers import UserOperatorSerializer, UserSerializer
-from .models import User, UserOperator
+from .serializers import UserOrganizationSerializer, UserSerializer
+from .models import User, UserOrganization
 from rest_framework import viewsets
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -7,6 +7,6 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     
 
-class UserOperatorViewSet(viewsets.ModelViewSet):
-    queryset = UserOperator.objects.all()
-    serializer_class = UserOperatorSerializer
+class UserOrganizationViewSet(viewsets.ModelViewSet):
+    queryset = UserOrganization.objects.all()
+    serializer_class = UserOrganizationSerializer

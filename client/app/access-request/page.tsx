@@ -8,18 +8,17 @@ import { useEffect } from "react";
 const schema: RJSFSchema = {
   title: "Organization Access Request",
   type: "object",
-  required: ["role", "operator_id", "user_id"],
+  required: ["role", "organization_id", "user_id"],
   properties: {
     role: { type: "string", title: "Role" },
-    operator_id: { type: "string", title: "Operator" },
+    organization_id: { type: "string", title: "Organization" },
     user_id: { type: "string", title: "User" },
   },
 };
 
 const log = (type: any) => console.log.bind(console, type);
-//  we will populate the form ourselves because we already know operator id and user id from fixtures. Basically, the user is just clicking a button to request
 export default function AccessRequest() {
-  const userOperatorEndpoint = "http://127.0.0.1:8000/user_operators/";
+  const userOrganizationEndpoint = "http://127.0.0.1:8000/user_organizations/";
   const userEndpoint = `http://127.0.0.1:8000/users/${1}`;
 
   useEffect(() => {
@@ -31,7 +30,7 @@ export default function AccessRequest() {
   }, []);
 
   const submitHandler = (data: any) => {
-    fetch(userOperatorEndpoint, {
+    fetch(userOrganizationEndpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

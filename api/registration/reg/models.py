@@ -1,6 +1,6 @@
 from django.db import models
 
-class Operator (models.Model):
+class Organization (models.Model):
     swrs_org_id = models.IntegerField()
     business_legal_name = models.CharField(max_length=1000)      
     english_trade_name = models.CharField(max_length=1000)
@@ -11,7 +11,7 @@ class Operator (models.Model):
         return self.business_legal_name
 
 class Facility(models.Model):
-    operator_id = models.ForeignKey(Operator, on_delete=models.CASCADE, related_name='facilities')
+    organization_id = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='facilities')
     swrs_facility_id = models.IntegerField()
     facility_name = models.CharField(max_length=1000)
     facility_type = models.CharField(max_length=1000)
@@ -31,7 +31,7 @@ class User(models.Model):
     def __str__(self) -> str:
         return self.first_name + ' ' + self.last_name
 
-class UserOperator(models.Model):
+class UserOrganization(models.Model):
     
     class Roles(models.TextChoices):
         ADMIN = 'admin', 'Admin'
@@ -42,7 +42,7 @@ class UserOperator(models.Model):
         APPROVED = 'approved', 'Approved'
         REJECTED = 'rejected', 'Rejected'
     
-    user_id = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='user_operators')
-    operator_id = models.ForeignKey(Operator, on_delete=models.DO_NOTHING, related_name='user_operators')
+    user_id = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='user_organizations')
+    organization_id = models.ForeignKey(Organization, on_delete=models.DO_NOTHING, related_name='user_organizations')
     role = models.CharField(max_length=100, choices=Roles.choices)
     status = models.CharField(max_length=1000, choices=Statuses.choices, default=Statuses.PENDING)
