@@ -1,6 +1,7 @@
 from django.db import models
 
 class Organization (models.Model):
+class Operator (models.Model):
     class Statuses(models.TextChoices):
         PENDING = 'pending', 'Pending'
         APPROVED = 'approved', 'Approved'
@@ -11,9 +12,9 @@ class Organization (models.Model):
     english_trade_name = models.CharField(max_length=1000)
     french_trade_name = models.CharField(max_length=1000)
     cra_business_number = models.CharField(max_length=1000)
-    
     def __str__(self):
         return self.business_legal_name
+    status = models.CharField(max_length=50, choices=Statuses.choices, default=Statuses.PENDING)
 
 class Facility(models.Model):
     organization_id = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='facilities')
