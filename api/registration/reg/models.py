@@ -1,6 +1,6 @@
 from django.db import models
 
-class Operator (models.Model):
+class Organization (models.Model):
     class Statuses(models.TextChoices):
         PENDING = 'pending', 'Pending'
         APPROVED = 'approved', 'Approved'
@@ -14,7 +14,7 @@ class Operator (models.Model):
     status = models.CharField(max_length=50, choices=Statuses.choices, default=Statuses.PENDING)
 
 class Facility(models.Model):
-    operator_id = models.ForeignKey(Operator, on_delete=models.CASCADE, related_name='facilities')
+    organization_id = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='facilities')
     swrs_facility_id = models.IntegerField()
     facility_name = models.CharField(max_length=1000)
     facility_type = models.CharField(max_length=1000)
@@ -31,7 +31,7 @@ class User(models.Model):
     email = models.CharField(max_length=1000)
     user_guid = models.CharField(max_length=1000)
 
-class UserOperator(models.Model):
+class UserOrganization(models.Model):
     
     class Roles(models.TextChoices):
         ADMIN = 'admin', 'Admin'
@@ -42,7 +42,7 @@ class UserOperator(models.Model):
         APPROVED = 'approved', 'Approved'
         REJECTED = 'rejected', 'Rejected'
     
-    user_id = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='user_operators')
-    operator_id = models.ForeignKey(Operator, on_delete=models.DO_NOTHING, related_name='user_operators')
+    user_id = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='user_organizations')
+    organization_id = models.ForeignKey(Organization, on_delete=models.DO_NOTHING, related_name='user_organizations')
     role = models.CharField(max_length=100, choices=Roles.choices)
     status = models.CharField(max_length=1000, choices=Statuses.choices)

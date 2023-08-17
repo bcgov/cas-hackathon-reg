@@ -20,6 +20,7 @@ from reg import views
 
 urlpatterns = [
     path('s/administration/raw/', admin.site.urls),
-    path("operators/", views.operators, name="operators"),
-    path("operator/<int:operator_id>/", views.operator, name="operators")
+    path("organizations/", views.organizations, name="organizations"),
+    path("organizations/<int:organization_id>/", views.organization, name="organizations"),
+    path("organizations/approve/<int:pk>/", views.OrganizationPartialUpdateView.as_view(), name="approve_org")
 ]

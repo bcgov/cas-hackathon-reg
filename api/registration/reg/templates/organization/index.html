@@ -1,0 +1,17 @@
+{% if organization %}
+    <ul>
+        <li>Business Legal Name: {{ organization.business_legal_name }}</li>
+        <li>English Trade Name: {{ organization.english_trade_name }}</li>
+        <li>French Trade Name: {{ organization.french_trade_name }}</li>
+        <li>CRA Business Number: {{ organization.cra_business_number }}</li>
+        <li>Status: {{ organization.status }}</li>
+    </ul>
+    <form method="put">
+        <button class="button is-success" href="{% url 'organizations/approve' organization.id %}">
+            Approve Organization
+        </button>
+    </form>
+
+{% else %}
+    <p>No data available.</p>
+{% endif %}
