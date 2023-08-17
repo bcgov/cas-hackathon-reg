@@ -4,7 +4,8 @@ module.exports = {
   // plugins: ["jest", "relay"],
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    project: ["./tsconfig.json"],
+    project: "tsconfig.json",
+    tsconfigRootDir: __dirname,
   },
   rules: {
     // "react/prop-types": 0, // don't need react/prop-types when components are typed with typescript
