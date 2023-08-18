@@ -140,8 +140,8 @@ export default function FakeUser() {
     const userType = formData.user_type;
     formData.user_guid =
       userType === "Internal"
-        ? `idir-${Math.floor(Math.random() * 10)}`
-        : `bceid-${Math.floor(Math.random() * 10)}`;
+        ? `idir-${Math.floor(Math.random() * 10000000)}`
+        : `bceid-${Math.floor(Math.random() * 10000000)}`;
 
     if (userType === "Internal") {
       // for internal users, simply add the user to the user table
@@ -160,7 +160,8 @@ export default function FakeUser() {
         });
       return;
     }
-    // brianna question for later: I don't think this fetching strategy is transactional, better options?
+    // brianna question for later: I don't think this fetching strategy is transactional, better options? A: later use a serializer and viewset to do this properly
+
     // for external user, add to User table
     fetch(userEndpoint, {
       method: "POST",
@@ -224,8 +225,6 @@ export default function FakeUser() {
         console.log(error);
       });
   };
-  // brianna to do
-  // if not already registered, add to User, Org, and UserOrg tables
 
   return (
     <>
