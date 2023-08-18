@@ -3,7 +3,8 @@
 import validator from "@rjsf/validator-ajv8";
 import Form from "@rjsf/mui";
 import { RJSFSchema } from "@rjsf/utils";
-import { useEffect } from "react";
+import { Fragment } from "react";
+// import { useGetUsersQuery } from "@/redux/api/apiSlice";
 
 const schema: RJSFSchema = {
   title: "Organization Access Request",
@@ -15,19 +16,11 @@ const schema: RJSFSchema = {
     user_id: { type: "string", title: "User" },
   },
 };
+const userOrganizationEndpoint = "http://127.0.0.1:8000/user_organizations/";
 
 const log = (type: any) => console.log.bind(console, type);
 export default function AccessRequest() {
-  const userOrganizationEndpoint = "http://127.0.0.1:8000/user_organizations/";
-  const userEndpoint = `http://127.0.0.1:8000/users/${1}`;
-
-  useEffect(() => {
-    fetch(userEndpoint)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
-  }, []);
+  // const { data: users, error, isLoading } = useGetUsersQuery();
 
   const submitHandler = (data: any) => {
     fetch(userOrganizationEndpoint, {
@@ -40,13 +33,13 @@ export default function AccessRequest() {
       .then((response) => {
         console.log(response);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((error2) => {
+        console.log(error2);
       });
   };
 
   return (
-    <>
+    <Fragment>
       <h1>Organization Access Request</h1>
       <Form
         schema={schema}
@@ -54,6 +47,6 @@ export default function AccessRequest() {
         onSubmit={submitHandler}
         onError={log("errors")}
       />
-    </>
+    </Fragment>
   );
 }
