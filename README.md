@@ -7,16 +7,31 @@
 3. From the command line in the /api folder, run `pip3 install -r requirements.txt`
 4. Confirm libraries have been installed correctly - e.g., `python3 -m django --version` should output the version number of Django as specified in requirements.txt
 5. To run the webserver locally, cd in /api/registration, then run `python3 manage.py runserver` - if it's running correctly, the terminal output will say that the development server is running on your local host on a port (default :8000).
-    - the first time you run this, you'll get warning messages saying that you have unapplied migrations.
-1. To run the database migration locally, execute `python3 manage.py migrate`
-2. To access the Django admin panel locally, execute `python3 manage.py createsuperuser` to create a superuser in your local database. You'll need to remember the credentials you create in order to access the admin panel when running the Django server locally. 
-3. Log in to the admin panel by navigating to the '/s/administration/raw' endpoint (at the address your server is running on)
+   - the first time you run this, you'll get warning messages saying that you have unapplied migrations.
+6. To run the database migration locally, execute `python3 manage.py migrate`
+   - the first time you run this, you'll get warning messages saying that you have unapplied migrations.
+7. To run the database migration locally, execute `python3 manage.py migrate`
+8. To access the Django admin panel locally, execute `python3 manage.py createsuperuser` to create a superuser in your local database. You'll need to remember the credentials you create in order to access the admin panel when running the Django server locally.
+9. Log in to the admin panel by navigating to the '/s/administration/raw' endpoint (at the address your server is running on)
 
 ## Setup for local database development
 
 1. Ensure your Postgres server is running locally
 2. Create a new database
 3. Make a copy of the api/registration/registration/settings.py file and name it local_settings.py. Update the values in `DATABASES {}` with the values specific to your local database.
+
+## Steps for locally updating the project after pulling changes
+
+1. In `/cas-hackathon-reg/api/registration`:
+
+   1. run `make migrate` if there are new migrations
+   2. run `make loadfixtures` if there are new fixtures
+   3. update `local_settings` with any new changes from the main `settings` folder
+
+2. If you hit a migration conflict:
+   (TBC, but for now)
+   1. Delete the newly pulled migrations
+   2. Run `make makemigrations` to recreate them relative to your existing migrations (mainly to update dependencies, I think?)
 
 #### Done once, don't need to do again
 

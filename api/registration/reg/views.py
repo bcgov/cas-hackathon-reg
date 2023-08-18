@@ -1,14 +1,13 @@
-from django.shortcuts import render
-from django.http.response import JsonResponse
+
+from .serializers import UserOrganizationSerializer, UserSerializer, OrganizationSerializer
+from .models import User, UserOrganization
 from rest_framework import viewsets
+from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
-from django.http import HttpResponse
 from rest_framework import status
 from .models import Organization
-from .serializers import OrganizationSerializer
 from rest_framework import generics
 from rest_framework.decorators import api_view
-
 
 @api_view(['GET', 'PUT'])
 def organization(request, organization_id):
@@ -18,11 +17,6 @@ def organization(request, organization_id):
         return JsonResponse({'message': 'Organization does not exist.'})
 
     if request.method == 'GET':
-
-        # context = {
-        #     "organization": organization,
-        # }
-        # return render(request, "organization/index.html", context)
         organization_serializer = OrganizationSerializer(organization)
         return JsonResponse(organization_serializer.data)
     elif request.method == 'PUT':
@@ -38,6 +32,17 @@ class OrganizationsView(viewsets.ModelViewSet):
     serializer_class = OrganizationSerializer
     queryset = Organization.objects.all()
 
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    
+class UserOrganizationViewSet(viewsets.ModelViewSet):
+    queryset = UserOrganization.objects.all()
+    serializer_class = UserOrganizationSerializer
+
+class OrganizationViewSet(viewsets.ModelViewSet):
+    queryset = Organization.objects.all()
+    serializer_class = OrganizationSerializer
 
 class OrganizationUpdateView(generics.UpdateAPIView):
     queryset = Organization.objects.all()

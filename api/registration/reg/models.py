@@ -12,6 +12,8 @@ class Organization (models.Model):
     french_trade_name = models.CharField(max_length=1000)
     cra_business_number = models.CharField(max_length=1000)
     status = models.CharField(max_length=50, choices=Statuses.choices, default=Statuses.PENDING)
+    def __str__(self):
+        return self.business_legal_name
 
 class Facility(models.Model):
     organization_id = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='facilities')
@@ -30,6 +32,9 @@ class User(models.Model):
     last_name = models.CharField(max_length=1000)
     email = models.CharField(max_length=1000)
     user_guid = models.CharField(max_length=1000)
+    
+    def __str__(self) -> str:
+        return self.first_name + ' ' + self.last_name
 
 class UserOrganization(models.Model):
     
@@ -45,4 +50,4 @@ class UserOrganization(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='user_organizations')
     organization_id = models.ForeignKey(Organization, on_delete=models.DO_NOTHING, related_name='user_organizations')
     role = models.CharField(max_length=100, choices=Roles.choices)
-    status = models.CharField(max_length=1000, choices=Statuses.choices)
+    status = models.CharField(max_length=1000, choices=Statuses.choices, default=Statuses.PENDING)

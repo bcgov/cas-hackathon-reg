@@ -1,6 +1,6 @@
 [
   {
-    "model": "reg.operator",
+    "model": "reg.organization",
     "pk": 1,
     "fields": {
       "swrs_org_id": 1,
@@ -11,7 +11,7 @@
     }
   },
   {
-    "model": "reg.operator",
+    "model": "reg.organization",
     "pk": 2,
     "fields": {
       "swrs_org_id": 2,

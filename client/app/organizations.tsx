@@ -26,7 +26,7 @@ export default async function Organizations() {
 
   const organizationsList: ReactElement[] = []
 
-  data.forEach((org) => {
+  data.forEach((org: Organization) => {
     organizationsList.push(buildOrganizationListElement(org))
   })
 

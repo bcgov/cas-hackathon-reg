@@ -1,0 +1,11 @@
+{% if all_operators_list %}
+    <ul>
+        {% for operator in all_operators_list %}
+        <li>
+            <a href="{% url 'operators' operator.id %}">{{ operator.business_legal_name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No operators available.</p>
+{% endif %}
