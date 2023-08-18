@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http.response import JsonResponse
+from rest_framework import viewsets
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse
 from rest_framework import status
@@ -33,12 +34,10 @@ def organization(request, organization_id):
         return JsonResponse(organization_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
 
-def organizations(request):
-    all_organizations_list = Organization.objects.order_by("business_legal_name")
-    context = {
-        "all_organizations_list": all_organizations_list,
-    }
-    return render(request, "organizations/index.html", context)
+class OrganizationsView(viewsets.ModelViewSet):
+    serializer_class = OrganizationSerializer
+    queryset = Organization.objects.all()
+
 
 class OrganizationUpdateView(generics.UpdateAPIView):
     queryset = Organization.objects.all()
