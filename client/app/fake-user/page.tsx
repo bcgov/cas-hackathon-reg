@@ -42,6 +42,7 @@ const schema: RJSFSchema = {
                   type: "string",
                 },
               },
+              required: ["user_type", "first_name", "last_name", "email"],
             },
             {
               properties: {
@@ -62,6 +63,7 @@ const schema: RJSFSchema = {
                   type: "string",
                 },
               },
+              required: ["user_type", "first_name", "last_name", "email"],
             },
           ],
         },
@@ -73,6 +75,16 @@ const schema: RJSFSchema = {
 const log = (type: any) => console.log.bind(console, type);
 export default function FakeUser() {
   const userEndpoint = "http://127.0.0.1:8000/users/";
+  const userOrganizationEndpoint = "http://127.0.0.1:8000/user_organizations/";
+  const organizationsEndpoint = "http://127.0.0.1:8000/organizations/";
+
+  useEffect(() => {
+    fetch(organizationsEndpoint)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
+  }, []);
 
   const submitHandler = (data: any) => {
     const userType = data.formData.fakeUser.user_type;
@@ -106,10 +118,18 @@ export default function FakeUser() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data.formData),
+      body: JSON.stringify(data.formData.fakeUser),
     })
       .then((response) => {
         console.log(response);
+        fetch(userOrganizationEndpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          // brianna this is probably wrong
+          body: JSON.stringify(response.body),
+        });
       })
       .catch((error) => {
         console.log(error);
