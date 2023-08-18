@@ -23,9 +23,15 @@
 ## Steps for locally updating the project after pulling changes
 
 1. In `/cas-hackathon-reg/api/registration`:
+
    1. run `make migrate` if there are new migrations
    2. run `make loadfixtures` if there are new fixtures
    3. update `local_settings` with any new changes from the main `settings` folder
+
+2. If you hit a migration conflict:
+   (TBC, but for now)
+   1. Delete the newly pulled migrations
+   2. Run `make makemigrations` to recreate them relative to your existing migrations (mainly to update dependencies, I think?)
 
 #### Done once, don't need to do again
 
