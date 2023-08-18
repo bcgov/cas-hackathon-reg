@@ -79,6 +79,14 @@ export default function FakeUser() {
                 type: "number",
                 title: "organization name that already exists in the system",
                 // enum: results,
+                anyOf: results.map((el) => {
+                  return {
+                    type: "number",
+                    title: el.business_legal_name,
+                    enum: [el.id],
+                    value: el.id,
+                  };
+                }),
               },
             },
             required: ["user_type", "first_name", "last_name", "email"],
@@ -86,19 +94,6 @@ export default function FakeUser() {
         ],
       },
     },
-  };
-
-  schema.dependencies.user_type.oneOf[1].properties.organization_id = {
-    ...schema.dependencies.user_type.oneOf[1].properties.organization_id,
-    anyOf: results.map((el) => {
-      console.log("el", el);
-      return {
-        type: "number",
-        title: el.business_legal_name,
-        enum: [el.id],
-        value: el.id,
-      };
-    }),
   };
 
   const uiSchema = {
