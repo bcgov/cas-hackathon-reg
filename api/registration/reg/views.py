@@ -57,6 +57,10 @@ class UserOrganizationViewSet(viewsets.ModelViewSet):
     queryset = UserOrganization.objects.all()
     serializer_class = UserOrganizationSerializer
 
+class OrganizationViewSet(viewsets.ModelViewSet):
+    queryset = Organization.objects.all()
+    serializer_class = OrganizationSerializer
+
 class OrganizationUpdateView(generics.UpdateAPIView):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
