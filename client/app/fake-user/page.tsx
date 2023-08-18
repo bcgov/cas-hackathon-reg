@@ -10,21 +10,16 @@ export default function FakeUser() {
   // endpoint stuff
   const userEndpoint = "http://127.0.0.1:8000/users/";
   const userOrganizationEndpoint = "http://127.0.0.1:8000/user_organizations/";
-  const organizationsEndpoint = "http://127.0.0.1:8000/organizations/";
+  const organizationEndpoint = "http://127.0.0.1:8000/organizations/";
   let organizations;
 
   const [results, setResults] = useState([]);
   // fetch stuff for rjsf dropdown
   useEffect(() => {
-    fetch(organizationsEndpoint)
+    fetch(organizationEndpoint)
       .then((response) => response.json())
       .then((data) => {
-        console.log("data", data);
         organizations = data.results;
-        // organizations = data.results.map(
-        //   (el) => `${el.id} - ${el.business_legal_name}`
-        // ) as [];
-        console.log("organizations", organizations);
         setResults(organizations);
       });
   }, []);
@@ -74,22 +69,56 @@ export default function FakeUser() {
               email: {
                 type: "string",
               },
-              // brianna will need to handle second external option
-              organization_id: {
-                type: "number",
-                title: "organization name that already exists in the system",
-                // enum: results,
-                anyOf: results.map((el) => {
-                  return {
-                    type: "number",
-                    title: el.business_legal_name,
-                    enum: [el.id],
-                    value: el.id,
-                  };
-                }),
+              external_type: { type: "string", enum: ["Existing", "New"] },
+            },
+            dependencies: {
+              external_type: {
+                oneOf: [
+                  {
+                    properties: {
+                      external_type: {
+                        enum: ["Existing"],
+                      },
+
+                      organization_id: {
+                        type: "number",
+                        title:
+                          "organization name that already exists in the system",
+                        // enum: results,
+                        anyOf: results.map((el) => {
+                          return {
+                            type: "number",
+                            title: el.business_legal_name,
+                            enum: [el.id],
+                            value: el.id,
+                          };
+                        }),
+                      },
+                    },
+                    required: ["organization_id"],
+                  },
+                  {
+                    properties: {
+                      external_type: {
+                        enum: ["New"],
+                      },
+
+                      organization_name: {
+                        type: "string",
+                      },
+                    },
+                    required: ["organization_name"],
+                  },
+                ],
               },
             },
-            required: ["user_type", "first_name", "last_name", "email"],
+            required: [
+              "user_type",
+              "first_name",
+              "last_name",
+              "email",
+              "external_type",
+            ],
           },
         ],
       },
@@ -100,12 +129,16 @@ export default function FakeUser() {
     organization_id: {
       "ui:widget": "select",
     },
+    organization_name: {
+      "ui:widget": "text",
+    },
   };
 
   // submit handler
   const submitHandler = (data: any) => {
-    const userType = data.formData.user_type;
-    data.formData.user_guid =
+    const formData = data.formData;
+    const userType = formData.user_type;
+    formData.user_guid =
       userType === "Internal"
         ? `idir-${Math.floor(Math.random() * 10)}`
         : `bceid-${Math.floor(Math.random() * 10)}`;
@@ -117,7 +150,7 @@ export default function FakeUser() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data.formData),
+        body: JSON.stringify(formData),
       })
         .then((response) => {
           console.log("response", response);
@@ -127,11 +160,7 @@ export default function FakeUser() {
         });
       return;
     }
-    // for external user, if the org is already registered, add to User & UserOrg tables
-    // brianna to do
-    // if not already registered, add to User, Org, and UserOrg tables
-
-    const formData = data.formData;
+    // for external user, add to User table
     fetch(userEndpoint, {
       method: "POST",
       headers: {
@@ -141,8 +170,43 @@ export default function FakeUser() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("formData", formData);
-        const userOrganizationData = {
+        const isUnregisteredOrganization = !formData.organization_id;
+
+        // if org does not exist
+        if (isUnregisteredOrganization) {
+          const organizationData = {
+            organization_id: formData.organization_id,
+            role: "admin",
+            user_id: data.id,
+          };
+          // first add to Org table
+          fetch(organizationEndpoint, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(organizationData),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              const newUserOrganizationData = {
+                organization_id: formData.organization_id,
+                role: "admin",
+                user_id: data.id,
+              };
+              // then add to UserOrg table
+              fetch(userOrganizationEndpoint, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newUserOrganizationData),
+              });
+            });
+          return;
+        }
+        // if org does exist, put in UserOrg table
+        const existingUserOrganizationData = {
           organization_id: formData.organization_id,
           role: "admin",
           user_id: data.id,
@@ -152,14 +216,15 @@ export default function FakeUser() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(userOrganizationData),
+          body: JSON.stringify(existingUserOrganizationData),
         });
       })
-
       .catch((error) => {
         console.log(error);
       });
   };
+  // brianna to do
+  // if not already registered, add to User, Org, and UserOrg tables
 
   return (
     <>
