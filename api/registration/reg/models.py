@@ -1,7 +1,6 @@
 from django.db import models
 
 class Organization (models.Model):
-class Operator (models.Model):
     class Statuses(models.TextChoices):
         PENDING = 'pending', 'Pending'
         APPROVED = 'approved', 'Approved'
