@@ -8,7 +8,6 @@ from rest_framework.parsers import JSONParser
 from django.http import HttpResponse
 from rest_framework import status
 from .models import Organization
-from .serializers import 
 from rest_framework import generics
 from rest_framework.decorators import api_view
 
