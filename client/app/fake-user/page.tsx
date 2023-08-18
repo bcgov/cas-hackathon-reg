@@ -160,6 +160,7 @@ export default function FakeUser() {
         });
       return;
     }
+    // brianna question for later: I don't think this fetching strategy is transactional, better options?
     // for external user, add to User table
     fetch(userEndpoint, {
       method: "POST",
