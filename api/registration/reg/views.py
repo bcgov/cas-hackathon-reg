@@ -28,10 +28,6 @@ def organization(request, organization_id):
         return JsonResponse(organization_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
 
-class OrganizationsView(viewsets.ModelViewSet):
-    serializer_class = OrganizationSerializer
-    queryset = Organization.objects.all()
-
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
