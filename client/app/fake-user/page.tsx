@@ -1,5 +1,4 @@
 "use client";
-import Button from "@button-inc/bcgov-theme/Button";
 import validator from "@rjsf/validator-ajv8";
 import Form from "@rjsf/core";
 import { RJSFSchema } from "@rjsf/utils";
