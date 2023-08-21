@@ -5,7 +5,12 @@ export default function Home() {
     <main>
       <div>
         <h1>Welcome to the Operator Portal</h1>
-        <Link href="/access-request">Access Request</Link>
+        <div>
+          <Link href="/access-request">Access Request</Link>
+        </div>
+        <div>
+          <Link href="/fake-user">Create Fake User</Link>
+        </div>
       </div>
     </main>
   );
