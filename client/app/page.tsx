@@ -16,7 +16,7 @@ export default function Home() {
         </ul>
         <h2>Pages an IRC user would use:</h2>
         <ul>
-          <Link href="/organizations">List of Organizations</Link> (you can
+          <Link href="/user-organizations">List of Organizations</Link> (you can
           approve/deny an organization here)
         </ul>
       </div>
