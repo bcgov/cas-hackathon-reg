@@ -19,43 +19,64 @@ export default function Organizations() {
   const [results, setResults] = useState([]);
 
   useEffect(() => {
-    let organizations;
-    fetch(organizationsEndpoint)
+    let userOrganizations;
+    fetch(userOrganizationsEndpoint)
       .then((response) => response.json())
       .then((data) => {
-        organizations = data.results.sort((a, b) => {
+        userOrganizations = data.results.sort((a, b) => {
           return a.id - b.id;
         });
-        log(organizations);
-        setResults(organizations);
+        log(userOrganizations);
+        setResults(userOrganizations);
       });
   }, []);
-
+  console.log("results", results);
   const schema: RJSFSchema = {
     type: "object",
 
     // required: ["Business Legal Name", "lastName"],
     properties: {
-      business_legal_name: {
-        type: "string",
-        title: "Business Legal Name",
-      },
-      english_trade_name: {
-        type: "string",
-        title: "English Trade Name",
-      },
-      french_trade_name: {
-        type: "string",
-        title: "French Trade Name",
-      },
-      cra_business_number: {
-        type: "string",
-        title: "CRA Business Number",
-      },
       status: {
         type: "string",
         title: "status",
         enum: ["pending", "approved", "denied"],
+      },
+      organization_id: {
+        properties: {
+          business_legal_name: {
+            type: "string",
+            title: "Business Legal Name",
+          },
+          english_trade_name: {
+            type: "string",
+            title: "English Trade Name",
+          },
+          french_trade_name: {
+            type: "string",
+            title: "French Trade Name",
+          },
+          cra_business_number: {
+            type: "string",
+            title: "CRA Business Number",
+          },
+          // status: {
+          //   type: "string",
+          //   title: "status",
+          //   enum: ["pending", "approved", "denied"],
+          // },
+        },
+      },
+      user_id: {
+        properties: {
+          first_name: {
+            type: "string",
+            title: "User",
+          },
+          last_name: {
+            type: "string",
+            title: "User",
+          },
+        },
       },
     },
   };
@@ -73,6 +94,9 @@ export default function Organizations() {
     cra_business_number: {
       "ui:readonly": true,
     },
+    user_id: {
+      "ui:readonly": true,
+    },
     status: {
       "ui:widget": "select",
     },
@@ -80,7 +104,7 @@ export default function Organizations() {
 
   const submitHandler = (data: any) => {
     console.log("data.formData", data.formData);
-    fetch(`${organizationsEndpoint}${data.formData.id}/`, {
+    fetch(`${userOrganizationsEndpoint}${data.formData.organization_id.id}/`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -103,7 +127,7 @@ export default function Organizations() {
               validator={validator}
               onSubmit={submitHandler}
               onError={log("errors")}
-              templates={{ ObjectFieldTemplate }}
+              // templates={{ ObjectFieldTemplate }}
             />
           </>
         );

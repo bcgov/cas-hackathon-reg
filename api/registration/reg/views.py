@@ -1,5 +1,5 @@
 
-from .serializers import UserOrganizationSerializer, UserSerializer, OrganizationSerializer
+from .serializers import RequestAccessSerializer, UserSerializer, OrganizationSerializer, ApproveOrDenySerializer
 from .models import User, UserOrganization
 from rest_framework import viewsets
 from django.shortcuts import render
@@ -10,6 +10,7 @@ from rest_framework import status
 from .models import Organization
 from rest_framework import generics
 from rest_framework.decorators import api_view
+from itertools import chain
 
 def operator(request, operator_id):
     operator = Operator.objects.get(id=operator_id)
@@ -41,7 +42,6 @@ def organization(request, organization_id):
             return JsonResponse(organization_serializer.data)
         return JsonResponse(organization_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
-
 def organizations(request):
     all_organizations_list = Organization.objects.order_by("business_legal_name")
     context = {
@@ -49,13 +49,32 @@ def organizations(request):
     }
     return render(request, "organizations/index.html", context)
 
+def user_organizations(request):
+    all_user_organizations_list = UserOrganization.objects.order_by("id")
+    context = {
+        "all_user_organizations_list": all_user_organizations_list,
+    }
+    return render(request, "user_organizations/index.html", context)
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     
 class UserOrganizationViewSet(viewsets.ModelViewSet):
     queryset = UserOrganization.objects.all()
-    serializer_class = UserOrganizationSerializer
+    serializer_class = RequestAccessSerializer
+
+class ApproveOrDenyViewset(viewsets.ModelViewSet):
+    queryset = UserOrganization.objects.all()
+    serializer_class = ApproveOrDenySerializer
+    # def put(self, request, *args, **kwargs):
+    #     result = super().partial_update(request, *args, **kwargs)
+    # def put(self, request, *args, **kwargs):
+    #     result = self.partial_update(request, *args, **kwargs)
+    #     breakpoint()
+        # UserOrganization.objects.get(pk=kwargs.get('pk'))
+
+        
 
 class OrganizationViewSet(viewsets.ModelViewSet):
     queryset = Organization.objects.all()
