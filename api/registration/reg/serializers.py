@@ -20,33 +20,27 @@ class RequestAccessSerializer(serializers.ModelSerializer):
 
 class ApproveOrDenySerializer(serializers.ModelSerializer):
     organization_id = OrganizationSerializer()
-    user_id = UserSerializer()
+    user_id = UserSerializer(read_only=True)
     
     class Meta:
         model = UserOrganization
-        fields = ['status','organization_id', 'user_id']
+        fields = ['id','status','organization_id', 'user_id']
 
 
-    # def update(self, instance, validated_data):
-    #     # result = super().update(request, *args, **kwargs)
-    #     breakpoint()
-    #     # instance.status = validated_data.get(
-    #     #     'status', instance.status)
-    #     instance.save()
-    #     return instance
+    def update(self, instance, validated_data):
+        # user organization info
+        instance.status = validated_data.get(
+            'status', instance.status)
+        instance.save()
+
+        # organization info
+        organization = instance.organization_id
+        organization.status = validated_data.get(
+            'status', instance.status)
+        organization.save()
+        return instance
 
 
-
-    # def update(self, instance, validated_data):
-    #     # breakpoint()
-    #     result = super().update(instance, validated_data)
-    #     breakpoint()
-        
-
-    #     # org_data = validated_data.pop('org')
-    #     # user_org = UserOrganization.objects.update(**validated_data)
-    #     # Organization.objects.update(user_org=user_org, **org_data)
-    #     return user_org
 
 
 

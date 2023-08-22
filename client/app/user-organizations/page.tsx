@@ -39,7 +39,7 @@ export default function Organizations() {
       status: {
         type: "string",
         title: "status",
-        enum: ["pending", "approved", "denied"],
+        enum: ["pending", "approved", "rejected"],
       },
       organization_id: {
         properties: {
@@ -59,11 +59,11 @@ export default function Organizations() {
             type: "string",
             title: "CRA Business Number",
           },
-          // status: {
-          //   type: "string",
-          //   title: "status",
-          //   enum: ["pending", "approved", "denied"],
-          // },
+          status: {
+            type: "string",
+            title: "ORG status",
+            enum: ["pending", "approved", "rejected"],
+          },
         },
       },
       user_id: {
@@ -103,14 +103,17 @@ export default function Organizations() {
   };
 
   const submitHandler = (data: any) => {
-    console.log("data.formData", data.formData);
-    fetch(`${userOrganizationsEndpoint}${data.formData.organization_id.id}/`, {
-      method: "PATCH",
+    console.log("data.formData, what's being sent", data.formData);
+    fetch(`${userOrganizationsEndpoint}${data.formData.id}/`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data.formData),
-    }).then((response) => response.json());
+    }).then((response) => {
+      console.log("response", response);
+      return response.json();
+    });
   };
 
   return (

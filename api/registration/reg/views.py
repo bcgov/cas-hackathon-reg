@@ -49,6 +49,27 @@ def organizations(request):
     }
     return render(request, "organizations/index.html", context)
 
+def user_organization(request, user_organization_id):
+    try:
+        user_organization = UserOrganization.objects.get(id=user_organization_id)
+    except:
+        return JsonResponse({'message': 'UserOrganization does not exist.'})
+    if request.method == 'GET':
+
+        # context = {
+        #     "organization": organization,
+        # }
+        # return render(request, "organization/index.html", context)
+        approve_or_deny_serializer = ApproveOrDenySerializer(user_organization)
+        return JsonResponse(approve_or_deny_serializer.data)
+    elif request.method == 'PUT':
+        user_organization_data = JSONParser().parse(request)
+        approve_or_deny_serializer = ApproveOrDenySerializer(user_organization, data=user_organization_data)
+        if approve_or_deny_serializer.is_valid():
+            approve_or_deny_serializer.save()
+            return JsonResponse(approve_or_deny_serializer.data)
+        return JsonResponse(approve_or_deny_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 def user_organizations(request):
     all_user_organizations_list = UserOrganization.objects.order_by("id")
     context = {
