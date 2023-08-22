@@ -1,7 +1,7 @@
 "use client";
 
 import validator from "@rjsf/validator-ajv8";
-import Form from "@rjsf/core";
+import Form from "@rjsf/mui";
 import { RJSFSchema } from "@rjsf/utils";
 import { Fragment } from "react";
 import {

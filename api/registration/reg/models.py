@@ -4,7 +4,7 @@ class Organization (models.Model):
     class Statuses(models.TextChoices):
         PENDING = 'pending', 'Pending'
         APPROVED = 'approved', 'Approved'
-        DENIED = 'denied', 'Denied'
+        DENIED = 'rejected', 'Rejected'
 
     swrs_org_id = models.IntegerField()
     business_legal_name = models.CharField(max_length=1000)      
@@ -51,3 +51,4 @@ class UserOrganization(models.Model):
     organization_id = models.ForeignKey(Organization, on_delete=models.DO_NOTHING, related_name='user_organizations')
     role = models.CharField(max_length=100, choices=Roles.choices)
     status = models.CharField(max_length=1000, choices=Statuses.choices, default=Statuses.PENDING)
+    
