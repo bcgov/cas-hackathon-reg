@@ -8,6 +8,7 @@ import {
 } from "@/app/types";
 import {
   BASE_URL,
+  NESTED_USER_ORGANIZATIONS_ENDPOINT,
   ORGANIZATIONS_ENDPOINT,
   USERS_ENDPOINT,
   USER_ORGANIZATIONS_ENDPOINT,
@@ -47,6 +48,9 @@ export const apiSlice = createApi({
     getUserOrganizations: builder.query<UserOrganizationsResponse, void>({
       query: () => USER_ORGANIZATIONS_ENDPOINT,
     }),
+    getNestedUserOrganizations: builder.query<UserOrganizationsResponse, void>({
+      query: () => NESTED_USER_ORGANIZATIONS_ENDPOINT,
+    }),
     addUserOrganization: builder.mutation<
       UserOrganization,
       Partial<UserOrganization>
@@ -68,4 +72,5 @@ export const {
   useAddOrganizationMutation,
   useGetUserOrganizationsQuery,
   useAddUserOrganizationMutation,
+  useGetNestedUserOrganizationsQuery,
 } = apiSlice;
