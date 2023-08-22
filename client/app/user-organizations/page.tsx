@@ -117,7 +117,7 @@ export default function Organizations() {
       {results.map((org: Organization) => {
         return (
           <>
-            <h2>{org.business_legal_name}</h2>
+            <h2>{org.organization_id.business_legal_name}</h2>
             <Form
               uiSchema={uiSchema}
               schema={schema}
@@ -125,7 +125,6 @@ export default function Organizations() {
               validator={validator}
               onSubmit={submitHandler}
               onError={log("errors")}
-              // templates={{ ObjectFieldTemplate }}
             />
           </>
         );
