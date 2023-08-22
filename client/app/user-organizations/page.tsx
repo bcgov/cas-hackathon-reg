@@ -93,7 +93,7 @@ export default function Organizations() {
   return (
     <>
       <h1>Organization List</h1>
-      {userOrganizations?.map((org: UserOrganization) => (
+      {userOrganizations?.results.map((org: UserOrganization) => (
         <div key={org.id}>
           <h2>{org.organization_id.business_legal_name}</h2>
           <Form
