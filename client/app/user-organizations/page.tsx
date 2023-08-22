@@ -2,7 +2,7 @@
 import { Organization } from "../../../api/registration/reg/models.py";
 import { useEffect, useState } from "react";
 import validator from "@rjsf/validator-ajv8";
-import Form from "@rjsf/core";
+import Form from "@rjsf/mui";
 import {
   getSubmitButtonOptions,
   RJSFSchema,
@@ -38,10 +38,11 @@ export default function Organizations() {
     properties: {
       status: {
         type: "string",
-        title: "status",
+        title: "Approve or Reject This Request",
         enum: ["pending", "approved", "rejected"],
       },
       organization_id: {
+        title: "Organization details",
         properties: {
           business_legal_name: {
             type: "string",
@@ -61,20 +62,22 @@ export default function Organizations() {
           },
           status: {
             type: "string",
-            title: "ORG status",
+            title:
+              "ORG status (ultimately, won't display here, this is just temporary to show it updates to match the approve/reject)",
             enum: ["pending", "approved", "rejected"],
           },
         },
       },
       user_id: {
+        title: "User who requested access on behalf of their organization",
         properties: {
           first_name: {
             type: "string",
-            title: "User",
+            title: "First Name",
           },
           last_name: {
             type: "string",
-            title: "User",
+            title: "Last Name",
           },
         },
       },
@@ -82,16 +85,8 @@ export default function Organizations() {
   };
 
   const uiSchema = {
-    business_legal_name: {
-      "ui:readonly": true,
-    },
-    english_trade_name: {
-      "ui:readonly": true,
-    },
-    french_trade_name: {
-      "ui:readonly": true,
-    },
-    cra_business_number: {
+    "ui:order": ["user_id", "organization_id", "status"],
+    organization_id: {
       "ui:readonly": true,
     },
     user_id: {
