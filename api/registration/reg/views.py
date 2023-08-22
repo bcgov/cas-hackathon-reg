@@ -102,3 +102,7 @@ class OrganizationPartialUpdateView(generics.UpdateAPIView):
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
 
+class SpecificUserOrganizationViewSet(viewsets.ModelViewSet):
+    # mock organzation_id is 1 in client (mockUser.ts)
+    queryset = UserOrganization.objects.filter(organization_id=1)
+    serializer_class = ApproveOrDenySerializer

@@ -3,7 +3,12 @@ import validator from "@rjsf/validator-ajv8";
 import Form from "@rjsf/mui";
 import { RJSFSchema } from "@rjsf/utils";
 import { UserOrganization } from "../types";
-import { useGetNestedUserOrganizationsQuery } from "@/redux/api/apiSlice";
+import {
+  useGetManageUsersQuery,
+  useGetNestedUserOrganizationQuery,
+  useGetNestedUserOrganizationsQuery,
+} from "@/redux/api/apiSlice";
+import { MOCK_ORGANIZATION_ID } from "@/constants/mockUser";
 
 const log = (type: any) => console.log.bind(console, type);
 
@@ -56,13 +61,13 @@ const uiSchema = {
   },
 };
 
-export default function UserApproval() {
-  // this needs to be updated to endpoint created in #9
-  const { data: userOrganizations } = useGetNestedUserOrganizationsQuery();
-  const userOrganizationsEndpoint =
-    "http://127.0.0.1:8000/nested_user_organizations/";
+export default function ManageUserAccess() {
+  const { data: userOrganizations } = useGetManageUsersQuery();
+
+  const manageUsersEndpoint = "http://127.0.0.1:8000/manage_users/";
+
   const submitHandler = async (data: any) => {
-    fetch(`${userOrganizationsEndpoint}${data.formData.id}/`, {
+    fetch(`${manageUsersEndpoint}${MOCK_ORGANIZATION_ID}/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
