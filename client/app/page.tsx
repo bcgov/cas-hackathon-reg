@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <main>
       <div>
-        <h1>Welcome to the Operator Portal</h1>
+        <h1>Welcome</h1>
         <div>
           <Link href="/access-request">Access Request</Link>
         </div>
