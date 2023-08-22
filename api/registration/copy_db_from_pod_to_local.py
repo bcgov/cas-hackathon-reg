@@ -1,7 +1,6 @@
 """ Module for getting database dump.
 """
 import subprocess
-import argparse
 import io
 from typing import List
 
@@ -198,13 +197,9 @@ def main():
     """
     Entry points - assumes you have openshift command line tools installed and are logged in .
     """
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-d', '--database', help='Specify name of database to copy')
-    args = parser.parse_args()
-
     project = get_project()
     pod = get_pod(project)
-    database = args.database if args.database else get_database(project, pod)
+    database = get_database(project, pod)
     schema = get_schema(project, pod, database)
     print('schema: {}'.format(schema))
     create_lock_file(project, pod, database)
