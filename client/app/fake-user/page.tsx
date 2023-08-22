@@ -1,7 +1,6 @@
 "use client";
-import Button from "@button-inc/bcgov-theme/Button";
 import validator from "@rjsf/validator-ajv8";
-import Form from "@rjsf/core";
+import Form from "@rjsf/mui";
 import { RJSFSchema } from "@rjsf/utils";
 import { useEffect, useState } from "react";
 
@@ -160,7 +159,7 @@ export default function FakeUser() {
         });
       return;
     }
-    // brianna question for later: I don't think this fetching strategy is transactional, better options? A: later use a serializer and viewset to do this properly
+    // brianna question for later: I don't think this fetching strategy is transactional, better options? A: later use a serializer and viewset to do this properly, e.g. https://gist.github.com/Vibhu-Agarwal/8f71bbef7072f1deea05c75abfb3c941
 
     // for external user, add to User table
     fetch(userEndpoint, {
