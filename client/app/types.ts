@@ -41,6 +41,17 @@ export interface UserOrganization {
   status: UserOrganizationStatus;
 }
 
+export interface Facility {
+  organization_id: number;
+  swrs_facility_id: number;
+  facility_name: string;
+  facility_type: string;
+  status: string;
+  latitude: number;
+  longitude: number;
+}
+
 export type UsersResponse = User[];
 export type OrganizationsResponse = Organization[];
 export type UserOrganizationsResponse = UserOrganization[];
+export type FacilitiesResponse = Facility[];

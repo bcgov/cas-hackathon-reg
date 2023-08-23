@@ -13,6 +13,9 @@ export default function Home() {
         <ul>
           <Link href="/access-request">Organization Access Request</Link>
         </ul>
+        <ul>
+          <Link href="/facility">Create or Update Facility</Link>
+        </ul>
         <h2>Pages an IRC user would use:</h2>
         <ul>
           <Link href="/user-organizations">List of Organizations</Link> (you can
