@@ -1,16 +1,13 @@
 
 from .serializers import RequestAccessSerializer, UserSerializer, OrganizationSerializer, ApproveOrDenySerializer
 from .models import User, UserOrganization
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from django.shortcuts import render
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
-from django.http import HttpResponse
 from rest_framework import status
 from .models import Organization
-from rest_framework import generics
 from rest_framework.decorators import api_view
-from itertools import chain
 
 def operator(request, operator_id):
     operator = Operator.objects.get(id=operator_id)
@@ -55,11 +52,6 @@ def user_organization(request, user_organization_id):
     except:
         return JsonResponse({'message': 'UserOrganization does not exist.'})
     if request.method == 'GET':
-
-        # context = {
-        #     "organization": organization,
-        # }
-        # return render(request, "organization/index.html", context)
         approve_or_deny_serializer = ApproveOrDenySerializer(user_organization)
         return JsonResponse(approve_or_deny_serializer.data)
     elif request.method == 'PUT':
@@ -85,25 +77,23 @@ class UserOrganizationViewSet(viewsets.ModelViewSet):
     queryset = UserOrganization.objects.all()
     serializer_class = RequestAccessSerializer
 
-class ApproveOrDenyViewset(viewsets.ModelViewSet):
-    queryset = UserOrganization.objects.all()
-    serializer_class = ApproveOrDenySerializer
-    # def put(self, request, *args, **kwargs):
-    #     result = super().partial_update(request, *args, **kwargs)
-    # def put(self, request, *args, **kwargs):
-    #     result = self.partial_update(request, *args, **kwargs)
-    #     breakpoint()
-        # UserOrganization.objects.get(pk=kwargs.get('pk'))
+# class ApproveOrDenyAPIView(generics.UpdateAPIView):
+#     queryset = UserOrganization.objects.all()
+#     serializer_class = ApproveOrDenySerializer
 
-        
+
+class NestedUserOrganizationViewSet(viewsets.ModelViewSet):
+    queryset = UserOrganization.objects.order_by("id")
+    serializer_class = ApproveOrDenySerializer
+    
 
 class OrganizationViewSet(viewsets.ModelViewSet):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
 
-class OrganizationUpdateView(generics.UpdateAPIView):
-    queryset = Organization.objects.all()
-    serializer_class = OrganizationSerializer
+# class OrganizationUpdateView(generics.UpdateAPIView):
+#     queryset = Organization.objects.all()
+#     serializer_class = OrganizationSerializer
 
 class OrganizationPartialUpdateView(generics.UpdateAPIView):
     queryset = Organization.objects.all()
