@@ -107,9 +107,10 @@ class FacilityViewSet(viewsets.ModelViewSet):
     serializer_class = FacilitySerializer
 
 
-# class NestedOrganizationViewSet(viewsets.ModelViewSet):
-#     queryset = Organization.objects.order_by("id")
-#     serializer_class = NestedOrganizationSerializer
+class NestedOrganizationViewSet(viewsets.ModelViewSet):
+    queryset = Organization.objects.order_by("id")
+    serializer_class = NestedOrganizationSerializer
+    
 class SpecificUserOrganizationViewSet(viewsets.ModelViewSet):
     # mock organzation_id is 1 in client (mockUser.ts)
     queryset = UserOrganization.objects.filter(organization_id=1)

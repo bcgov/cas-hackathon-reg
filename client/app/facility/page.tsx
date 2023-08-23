@@ -47,7 +47,7 @@ const facilitySchema: RJSFSchema = {
       title: "Status",
     },
     swrs_facility_id: {
-      type: "string",
+      type: "number",
       title: "SWRS Facility ID",
     },
     latitude: {
@@ -78,12 +78,13 @@ export default function FacilityPage() {
     useAddFacilityMutation();
 
   const [showFacilityForm, setShowFacilityForm] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
   const [organizationId, setOrganizationId] = useState("");
 
   useEffect(() => {
     if (organizationId && !isFetchingOrganization)
       setFacilities(
-        organizations?.filter(
+        organizations?.results.filter(
           (organization: Organization) =>
             organization.id === Number(organizationId)
         )[0].facilities
@@ -111,11 +112,36 @@ export default function FacilityPage() {
     }
   };
 
+  const facilityUpdateHandler = async (data: any) => {
+    const facilitiesEndpoint = "http://127.0.0.1:8000/facilities/";
+    const updatedFormData = {
+      ...data.formData,
+      organization_id: organizationId,
+    };
+    fetch(`${facilitiesEndpoint}${showEditForm}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedFormData),
+    }).then((response) => {
+      console.log("response", response);
+      return response.json();
+    });
+  };
+
   const handleChange = (event: any) => {
     setOrganizationId(event.target.value);
     setShowFacilityForm(false);
   };
 
+  const formData = facilities.filter((node) => {
+    console.log("node", node);
+    console.log("showEditForm", showEditForm);
+    return node.id === showEditForm;
+  });
+  // console.log("facilities", facilities);
+  console.log("formData", formData[0]);
   return (
     <>
       <h1>Facility</h1>
@@ -128,7 +154,7 @@ export default function FacilityPage() {
           onChange={handleChange}
           sx={{ mb: 2 }}
         >
-          {organizations?.map((organization: Organization) => {
+          {organizations?.results.map((organization: Organization) => {
             return (
               <MenuItem value={organization.id} key={organization.id}>
                 {organization.business_legal_name}
@@ -166,7 +192,11 @@ export default function FacilityPage() {
                 <TableCell align="right">{facility.longitude}</TableCell>
                 <TableCell align="right">
                   <Link href="#" passHref>
-                    <Button variant="contained" color="primary">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => setShowEditForm(facility.id)}
+                    >
                       Edit
                     </Button>
                   </Link>
@@ -188,6 +218,16 @@ export default function FacilityPage() {
           onSubmit={facilitySubmitHandler}
           disabled={isAddingFacility}
           uiSchema={facilityUiSchema}
+        ></Form>
+      )}
+      {showEditForm && (
+        <Form
+          schema={facilitySchema}
+          validator={validator}
+          onSubmit={facilityUpdateHandler}
+          disabled={isAddingFacility}
+          uiSchema={facilityUiSchema}
+          formData={formData[0]}
         ></Form>
       )}
     </>
