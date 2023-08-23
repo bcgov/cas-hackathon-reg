@@ -7,6 +7,8 @@ import {
   useGetManageUsersQuery,
   useGetNestedUserOrganizationQuery,
   useGetNestedUserOrganizationsQuery,
+  useUpdateManageUsersMutation,
+  useUpdateUserOrganizationMutation,
 } from "@/redux/api/apiSlice";
 import { MOCK_ORGANIZATION_ID } from "@/constants/mockUser";
 
@@ -63,10 +65,26 @@ const uiSchema = {
 
 export default function ManageUserAccess() {
   const { data: userOrganizations } = useGetManageUsersQuery();
+  const [updateManageUsers, { isLoading: isUpdatingManageUsers }] =
+    useUpdateManageUsersMutation();
 
+  if (!userOrganizations) {
+    return <>no users have requested access to this organization</>;
+  }
   const manageUsersEndpoint = "http://127.0.0.1:8000/manage_users/";
 
   const submitHandler = async (data: any) => {
+    // console.log("data.formData", data.formData);
+    // try {
+    //   await updateManageUsers({
+    //     ...data.formData,
+    //     organization_id: MOCK_ORGANIZATION_ID,
+    //   })
+    //     .unwrap()
+    //     .then((fulfilled) => console.log(fulfilled));
+    // } catch (err) {
+    //   log("error")(err);
+    // }
     fetch(`${manageUsersEndpoint}${MOCK_ORGANIZATION_ID}/`, {
       method: "PUT",
       headers: {

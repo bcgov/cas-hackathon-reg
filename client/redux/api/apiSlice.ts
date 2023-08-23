@@ -66,6 +66,22 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: [{ type: "UserOrganizations", id: "LIST" }],
     }),
+    updateManageUsers: builder.mutation<
+      UserOrganization,
+      Partial<UserOrganization> & Pick<UserOrganization, "id">
+    >({
+      query: ({ id, ...put }) => {
+        console.log("id:", id);
+        console.log("put in api slice:", put);
+        return {
+          url: `${MANAGE_USERS_ENDPOINT}${id}/`,
+          // url: `${USER_ORGANIZATIONS_ENDPOINT}${id}/`,
+          method: "PATCH",
+          put,
+        };
+      },
+      invalidatesTags: [{ type: "UserOrganizations", id: "LIST" }],
+    }),
   }),
 });
 
@@ -78,4 +94,5 @@ export const {
   useAddUserOrganizationMutation,
   useGetNestedUserOrganizationsQuery,
   useGetManageUsersQuery,
+  useUpdateManageUsersMutation,
 } = apiSlice;
