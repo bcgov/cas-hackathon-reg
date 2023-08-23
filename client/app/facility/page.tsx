@@ -97,7 +97,12 @@ export default function FacilityPage() {
         ...data.formData,
         organization_id: organizationId,
       };
-      await addFacility(updatedFormData).unwrap();
+      await addFacility(updatedFormData)
+        .unwrap()
+        .then((res) =>
+          // Update facilities state with the new facility
+          setFacilities((prevFacilities) => [...prevFacilities, res])
+        );
       // .then(() => {
       //   refetch();
       //   setFacilities(
