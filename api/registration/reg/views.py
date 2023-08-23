@@ -107,6 +107,23 @@ class FacilityViewSet(viewsets.ModelViewSet):
     serializer_class = FacilitySerializer
 
 
-class NestedOrganizationViewSet(viewsets.ModelViewSet):
-    queryset = Organization.objects.order_by("id")
-    serializer_class = NestedOrganizationSerializer
+# class NestedOrganizationViewSet(viewsets.ModelViewSet):
+#     queryset = Organization.objects.order_by("id")
+#     serializer_class = NestedOrganizationSerializer
+class SpecificUserOrganizationViewSet(viewsets.ModelViewSet):
+    # mock organzation_id is 1 in client (mockUser.ts)
+    queryset = UserOrganization.objects.filter(organization_id=1)
+    serializer_class = ApproveOrDenySerializer
+
+
+#     class SpecificUserOrganizationViewSet(generics.GenericAPIView):
+# # # class SpecificUserOrganizationViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin,mixins.RetrieveModelMixin, mixins.UpdateModelMixin,mixins.ListModelMixin):
+#     # mock organzation_id is 1 in client (mockUser.ts)
+#     queryset = UserOrganization.objects.filter(organization_id=1)
+#     serializer_class = ApproveOrDenySerializer
+#     # http_method_names = ['get', 'post', 'put']
+#     def put(self, request, *args, **kwargs):
+#         return self.partial_update(request, *args, **kwargs)
+#     def get_object(self):
+#         queryset = self.get_queryset().first()
+#         return queryset
