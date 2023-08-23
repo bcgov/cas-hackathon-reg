@@ -98,16 +98,20 @@ def delete_lock_file(project: str, pod: str, database: str) -> None:
 def dump_database(project: str, pod: str, database: str, schema: str) -> List[str]:
     """ Dump database to file """
     print('running pg_dump...')
-    files = ['/tmp/dump_db.tar', ]
+    files = []
 
-    print('(complete dump)')
-    result = subprocess.run([*oc_rsh(project, pod), 'pg_dump', '-n', schema, '--file=/tmp/dump_db.tar',
-                                 '--clean', '-Ft', database],
-                                stdout=subprocess.PIPE, check=True, text=True)
-    print(result.stdout)
+    process = subprocess.Popen([*oc_rsh(project, pod)], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
-    process = subprocess.Popen([*oc_rsh(project, pod)], stdin=subprocess.PIPE,
-                               stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    tables = ['organisation', 'facility']
+    for table in tables:
+        csv_file = '/tmp/{}.csv'.format(table)
+        files.append(csv_file)
+        sql_cmd = ('psql {database} -c "copy (SELECT * FROM {schema}.{table}) to '
+            '\'{csv_file}\' with csv"\n'.format(database=database, schema=schema, table=table, csv_file=csv_file))
+        print('running {}'.format(sql_cmd))
+        process.stdin.write(sql_cmd)
+        process.stdin.flush()
+
 
     for filename in files:
         print('zip: {}'.format(filename))
