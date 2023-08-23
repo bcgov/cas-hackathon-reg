@@ -70,14 +70,14 @@ export const apiSlice = createApi({
       UserOrganization,
       Partial<UserOrganization> & Pick<UserOrganization, "id">
     >({
-      query: ({ id, ...put }) => {
+      query: ({ id, ...patch }) => {
         console.log("id:", id);
-        console.log("put in api slice:", put);
+        console.log("patch in api slice:", patch);
         return {
           url: `${MANAGE_USERS_ENDPOINT}${id}/`,
           // url: `${USER_ORGANIZATIONS_ENDPOINT}${id}/`,
           method: "PATCH",
-          put,
+          patch,
         };
       },
       invalidatesTags: [{ type: "UserOrganizations", id: "LIST" }],

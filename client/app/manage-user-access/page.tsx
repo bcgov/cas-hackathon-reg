@@ -74,27 +74,27 @@ export default function ManageUserAccess() {
   const manageUsersEndpoint = "http://127.0.0.1:8000/manage_users/";
 
   const submitHandler = async (data: any) => {
-    // console.log("data.formData", data.formData);
-    // try {
-    //   await updateManageUsers({
-    //     ...data.formData,
-    //     organization_id: MOCK_ORGANIZATION_ID,
-    //   })
-    //     .unwrap()
-    //     .then((fulfilled) => console.log(fulfilled));
-    // } catch (err) {
-    //   log("error")(err);
-    // }
-    fetch(`${manageUsersEndpoint}${MOCK_ORGANIZATION_ID}/`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data.formData),
-    }).then((response) => {
-      console.log("response", response);
-      return response.json();
-    });
+    console.log("data.formData", data.formData);
+    try {
+      await updateManageUsers({
+        ...data.formData,
+        organization_id: MOCK_ORGANIZATION_ID,
+      })
+        .unwrap()
+        .then((fulfilled) => console.log("fulfilled", fulfilled));
+    } catch (err) {
+      log("error")(err);
+    }
+    // fetch(`${manageUsersEndpoint}${MOCK_ORGANIZATION_ID}/`, {
+    //   method: "PUT",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(data.formData),
+    // }).then((response) => {
+    //   console.log("response", response);
+    //   return response.json();
+    // });
   };
 
   return (
