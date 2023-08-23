@@ -77,6 +77,10 @@ export default function Organizations() {
   const { data: userOrganizations } = useGetNestedUserOrganizationsQuery();
   const userOrganizationsEndpoint =
     "http://127.0.0.1:8000/nested_user_organizations/";
+
+  if (!userOrganizations) {
+    return <>no user organizations in app</>;
+  }
   const submitHandler = async (data: any) => {
     fetch(`${userOrganizationsEndpoint}${data.formData.id}/`, {
       method: "PUT",
@@ -93,7 +97,7 @@ export default function Organizations() {
   return (
     <>
       <h1>Organization List</h1>
-      {userOrganizations?.map((org: UserOrganization) => (
+      {userOrganizations?.results.map((org: UserOrganization) => (
         <div key={org.id}>
           <h2>{org.organization_id.business_legal_name}</h2>
           <Form

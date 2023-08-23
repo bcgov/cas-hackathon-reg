@@ -112,9 +112,13 @@ export default function FakeUser() {
   const [addUserOrganization, { isLoading: isAddingUserOrganization }] =
     useAddUserOrganizationMutation();
 
+  if (!organizations) {
+    return <>no organizations in app</>;
+  }
+
   const localSchema = JSON.parse(JSON.stringify(schema));
   localSchema.dependencies.user_type.oneOf[1].dependencies.external_type.oneOf[0].properties.organization_id.anyOf =
-    organizations?.map((org) => {
+    organizations?.results.map((org) => {
       return {
         type: "number",
         title: org.business_legal_name,
