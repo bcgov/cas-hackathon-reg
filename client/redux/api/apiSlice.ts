@@ -12,6 +12,7 @@ import {
   ORGANIZATIONS_ENDPOINT,
   USERS_ENDPOINT,
   USER_ORGANIZATIONS_ENDPOINT,
+  MANAGE_USERS_ENDPOINT,
 } from "@/constants/apiEndpoints";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
@@ -48,6 +49,9 @@ export const apiSlice = createApi({
     getUserOrganizations: builder.query<UserOrganizationsResponse, void>({
       query: () => USER_ORGANIZATIONS_ENDPOINT,
     }),
+    getManageUsers: builder.query<UserOrganizationsResponse, void>({
+      query: () => MANAGE_USERS_ENDPOINT,
+    }),
     getNestedUserOrganizations: builder.query<UserOrganizationsResponse, void>({
       query: () => NESTED_USER_ORGANIZATIONS_ENDPOINT,
     }),
@@ -62,6 +66,22 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: [{ type: "UserOrganizations", id: "LIST" }],
     }),
+    updateManageUsers: builder.mutation<
+      UserOrganization,
+      Partial<UserOrganization> & Pick<UserOrganization, "id">
+    >({
+      query: ({ id, ...put }) => {
+        console.log("id:", id);
+        console.log("put in api slice:", put);
+        return {
+          url: `${MANAGE_USERS_ENDPOINT}${id}/`,
+          // url: `${USER_ORGANIZATIONS_ENDPOINT}${id}/`,
+          method: "PATCH",
+          put,
+        };
+      },
+      invalidatesTags: [{ type: "UserOrganizations", id: "LIST" }],
+    }),
   }),
 });
 
@@ -73,4 +93,6 @@ export const {
   useGetUserOrganizationsQuery,
   useAddUserOrganizationMutation,
   useGetNestedUserOrganizationsQuery,
+  useGetManageUsersQuery,
+  useUpdateManageUsersMutation,
 } = apiSlice;
