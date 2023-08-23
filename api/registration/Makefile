@@ -28,6 +28,9 @@ loadfixtures:
 shell_plus:
 	python $(MANAGE_PY) shell_plus
 
+copy_prod_db:
+	python copy_db_from_pod_to_local.py
+
 # Default target
 help:
 	@echo "Available commands:"
