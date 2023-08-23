@@ -5,10 +5,7 @@ import { RJSFSchema } from "@rjsf/utils";
 import { UserOrganization } from "../types";
 import {
   useGetManageUsersQuery,
-  useGetNestedUserOrganizationQuery,
-  useGetNestedUserOrganizationsQuery,
   useUpdateManageUsersMutation,
-  useUpdateUserOrganizationMutation,
 } from "@/redux/api/apiSlice";
 import { MOCK_ORGANIZATION_ID } from "@/constants/mockUser";
 
@@ -74,17 +71,6 @@ export default function ManageUserAccess() {
   const manageUsersEndpoint = "http://127.0.0.1:8000/manage_users/";
 
   const submitHandler = async (data: any) => {
-    // console.log("data.formData", data.formData);
-    // try {
-    //   await updateManageUsers({
-    //     ...data.formData,
-    //     organization_id: MOCK_ORGANIZATION_ID,
-    //   })
-    //     .unwrap()
-    //     .then((fulfilled) => console.log(fulfilled));
-    // } catch (err) {
-    //   log("error")(err);
-    // }
     fetch(`${manageUsersEndpoint}${MOCK_ORGANIZATION_ID}/`, {
       method: "PUT",
       headers: {
