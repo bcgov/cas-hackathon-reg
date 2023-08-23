@@ -65,9 +65,6 @@ export default function ManageUserAccess() {
   const [updateManageUsers, { isLoading: isUpdatingManageUsers }] =
     useUpdateManageUsersMutation();
 
-  if (!userOrganizations) {
-    return <>no users have requested access to this organization</>;
-  }
   const manageUsersEndpoint = "http://127.0.0.1:8000/manage_users/";
 
   const submitHandler = async (data: any) => {
@@ -86,6 +83,9 @@ export default function ManageUserAccess() {
   return (
     <>
       <h1>Manage User Access</h1>
+      {(!userOrganizations || userOrganizations.results.length) === 0 && (
+        <>no users have requested access to this organization</>
+      )}
       {userOrganizations?.results.map((org: UserOrganization) => (
         <div key={org.id}>
           <h2>
