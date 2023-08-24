@@ -1,0 +1,12 @@
+[
+  {
+    "model": "reg.userorganization",
+    "pk": 1,
+    "fields": {
+      "user_id": 2,
+      "organization_id": "1",
+      "role": "admin",
+      "status": "pending"
+    }
+  }
+]
