@@ -3,49 +3,35 @@ import validator from "@rjsf/validator-ajv8";
 import Form from "@rjsf/mui";
 import { RJSFSchema } from "@rjsf/utils";
 import { UserOrganization } from "../types";
-import { useGetNestedUserOrganizationsQuery } from "@/redux/api/apiSlice";
+import {
+  useGetManageUsersQuery,
+  useUpdateManageUsersMutation,
+} from "@/redux/api/apiSlice";
+import { MOCK_ORGANIZATION_ID } from "@/constants/mockUser";
 
 const log = (type: any) => console.log.bind(console, type);
 
 const schema: RJSFSchema = {
   type: "object",
-
-  // required: ["Business Legal Name", "lastName"],
+  required: ["status"],
   properties: {
     status: {
       type: "string",
-      title: "Approve or Reject This Request",
+      title: "Approve or Reject This User",
       enum: ["pending", "approved", "rejected"],
     },
     organization_id: {
-      title: "Organization details",
+      title: "",
       properties: {
-        business_legal_name: {
-          type: "string",
-          title: "Business Legal Name",
-        },
-        english_trade_name: {
-          type: "string",
-          title: "English Trade Name",
-        },
-        french_trade_name: {
-          type: "string",
-          title: "French Trade Name",
-        },
-        cra_business_number: {
-          type: "string",
-          title: "CRA Business Number",
-        },
-        status: {
-          type: "string",
+        id: {
+          type: "number",
           title:
-            "ORG status (ultimately, won't display here, this is just temporary to show it updates to match the approve/reject)",
-          enum: ["pending", "approved", "rejected"],
+            "Organization ID (just for demo purposes to confirm ids are only for one organization)",
         },
       },
     },
     user_id: {
-      title: "User who requested access on behalf of their organization",
+      title: "User who is requesting access to their organization",
       properties: {
         first_name: {
           type: "string",
@@ -62,10 +48,11 @@ const schema: RJSFSchema = {
 
 const uiSchema = {
   "ui:order": ["user_id", "organization_id", "status"],
-  organization_id: {
+
+  user_id: {
     "ui:readonly": true,
   },
-  user_id: {
+  organization_id: {
     "ui:readonly": true,
   },
   status: {
@@ -73,13 +60,15 @@ const uiSchema = {
   },
 };
 
-export default function Organizations() {
-  const { data: userOrganizations } = useGetNestedUserOrganizationsQuery();
-  const userOrganizationsEndpoint =
-    "http://127.0.0.1:8000/nested_user_organizations/";
+export default function ManageUserAccess() {
+  const { data: userOrganizations } = useGetManageUsersQuery();
+  const [updateManageUsers, { isLoading: isUpdatingManageUsers }] =
+    useUpdateManageUsersMutation();
+
+  const manageUsersEndpoint = "http://127.0.0.1:8000/manage_users/";
 
   const submitHandler = async (data: any) => {
-    fetch(`${userOrganizationsEndpoint}${data.formData.id}/`, {
+    fetch(`${manageUsersEndpoint}${MOCK_ORGANIZATION_ID}/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -93,13 +82,15 @@ export default function Organizations() {
 
   return (
     <>
-      <h1>Organization List</h1>
-      {(!userOrganizations || userOrganizations.results.length === 0) && (
-        <>no user organizations in app</>
+      <h1>Manage User Access</h1>
+      {(!userOrganizations || userOrganizations.results.length) === 0 && (
+        <>no users have requested access to this organization</>
       )}
       {userOrganizations?.results.map((org: UserOrganization) => (
         <div key={org.id}>
-          <h2>{org.organization_id.business_legal_name}</h2>
+          <h2>
+            {org.user_id.first_name} {org.user_id.last_name}
+          </h2>
           <Form
             uiSchema={uiSchema}
             schema={schema}
