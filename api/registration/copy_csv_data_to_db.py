@@ -56,7 +56,6 @@ def copy_data_from_csvs(database, csvs):
         df = pd.read_csv(csv)
         ordered_list_of_columns = list(df.columns)
         column_names = ', '.join([str(item) for item in ordered_list_of_columns])
-        print(column_names)
 
         sql_cmd = '"copy {tablename}({columns}) from \'{csv}\' DELIMITER \',\' csv header"\n'.format(tablename=tablename, columns=column_names, csv=csv)
         cmd = 'psql -d {database} -c {sql_cmd}'.format(database=database, sql_cmd=sql_cmd)

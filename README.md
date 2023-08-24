@@ -33,6 +33,14 @@
    1. Delete the newly pulled migrations
    2. Run `make makemigrations` to recreate them relative to your existing migrations (mainly to update dependencies, I think?)
 
+## Importing SWRS data from prod into your local DB
+
+1. Assuming the `oc` CLI is already installed, login to the Openshift cluster via the OC CLI tool ("Get Display Token" from Openshift web console)
+2. Ensure your Django ORM migrations are up to date!
+3. Within the `api/registration` directory, run `make copy_prod_db`. When the script starts running you'll be prompted in the Terminal for specifics regarding Openshift namespace (`09269b-prod`), which Patroni pod to use (choose a replica pod!), which database (`ciip`), and which schema (`swrs`). After this the pg_dump process will begin. If an error occurs during the process, ensure that the lock file is properly deleted from your chosen pod, otherwise nobody will be able to run the script on that pod. 
+4. Once the prod data has been successfully copied to your local (in `api/registration/tmp`), run `python copy_csv_data_to_db.py -d <your local db name>`. 
+5. If the data has been imported to your local DB successfully, you should have >8000 records in each of the `reg_organization` and `reg_facility` tables.
+
 #### Done once, don't need to do again
 
 - For initial setup, I ran `django-admin startproject registration` from within the /api directory. This auto-generated a subfolder called /registration (and a subfolder by the same name), and a default manage.py file. Note that here, `registration` is the name of the project, not the name of the app. In hindsight, something like `obps` would have been a better project name than `registration`...
