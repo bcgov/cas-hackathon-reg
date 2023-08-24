@@ -5,9 +5,12 @@ import {
   Organization,
   UserOrganizationsResponse,
   UserOrganization,
+  FacilitiesResponse,
 } from "@/app/types";
 import {
   BASE_URL,
+  FACILITIES_ENDPOINT,
+  NESTED_ORGANIZATIONS_ENDPOINT,
   NESTED_USER_ORGANIZATIONS_ENDPOINT,
   ORGANIZATIONS_ENDPOINT,
   USERS_ENDPOINT,
@@ -19,7 +22,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
-  tagTypes: ["Users", "Organizations", "UserOrganizations"],
+  tagTypes: ["Users", "Organizations", "UserOrganizations", "Facilities"],
   endpoints: (builder) => ({
     // User endpoints
     getUsers: builder.query<UsersResponse, void>({
@@ -36,6 +39,9 @@ export const apiSlice = createApi({
     // Organization endpoints
     getOrganizations: builder.query<OrganizationsResponse, void>({
       query: () => ORGANIZATIONS_ENDPOINT,
+    }),
+    getNestedOrganizations: builder.query<OrganizationsResponse, void>({
+      query: () => NESTED_ORGANIZATIONS_ENDPOINT,
     }),
     addOrganization: builder.mutation<Organization, Partial<Organization>>({
       query: (body) => ({
@@ -66,6 +72,31 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: [{ type: "UserOrganizations", id: "LIST" }],
     }),
+    // Facility endpoints
+    getFacilities: builder.query<FacilitiesResponse, void>({
+      query: () => FACILITIES_ENDPOINT,
+      // providesTags: (result) =>
+      //   result
+      //     ? [
+      //         ...result.map(({ facility_name }) => ({
+      //           type: "Facilities" as const,
+      //           facility_name,
+      //         })),
+      //         { type: "Facilities", id: "LIST" },
+      //       ]
+      //     : [{ type: "Facilities", id: "LIST" }],
+    }),
+    addFacility: builder.mutation<
+      FacilitiesResponse,
+      Partial<FacilitiesResponse>
+    >({
+      query: (body) => ({
+        url: FACILITIES_ENDPOINT,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [{ type: "Facilities", id: "LIST" }],
+    }),
     updateManageUsers: builder.mutation<
       UserOrganization,
       Partial<UserOrganization> & Pick<UserOrganization, "id">
@@ -90,9 +121,12 @@ export const {
   useAddUserMutation,
   useGetOrganizationsQuery,
   useAddOrganizationMutation,
+  useGetNestedOrganizationsQuery,
   useGetUserOrganizationsQuery,
   useAddUserOrganizationMutation,
   useGetNestedUserOrganizationsQuery,
+  useGetFacilitiesQuery,
+  useAddFacilityMutation,
   useGetManageUsersQuery,
   useUpdateManageUsersMutation,
 } = apiSlice;

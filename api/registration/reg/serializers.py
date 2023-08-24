@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, UserOrganization, Organization
+from .models import Facility, User, UserOrganization, Organization
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -40,9 +40,14 @@ class ApproveOrDenySerializer(serializers.ModelSerializer):
         organization.save()
         return instance
 
+class FacilitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Facility
+        fields = '__all__'
 
 
-
-
-
-
+class NestedOrganizationSerializer(serializers.ModelSerializer):
+    facilities = FacilitySerializer(many=True, read_only=True)
+    class Meta:
+        model = Organization
+        fields = '__all__'

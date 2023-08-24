@@ -118,7 +118,7 @@ export default function FakeUser() {
 
   const localSchema = JSON.parse(JSON.stringify(schema));
   localSchema.dependencies.user_type.oneOf[1].dependencies.external_type.oneOf[0].properties.organization_id.anyOf =
-    organizations?.results.map((org) => {
+    organizations?.map((org) => {
       return {
         type: "number",
         title: org.business_legal_name,

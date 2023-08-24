@@ -23,7 +23,7 @@ test:
 	python $(MANAGE_PY) test
 
 loadfixtures:
-	python $(MANAGE_PY) loaddata users.json organizations.json
+	python $(MANAGE_PY) loaddata users.json organizations.json user_organizations.json
 
 shell_plus:
 	python $(MANAGE_PY) shell_plus
