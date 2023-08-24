@@ -84,7 +84,7 @@ export default function FacilityPage() {
   useEffect(() => {
     if (organizationId && !isFetchingOrganization)
       setFacilities(
-        organizations?.results.filter(
+        organizations?.filter(
           (organization: Organization) =>
             organization.id === Number(organizationId)
         )[0].facilities
@@ -162,7 +162,7 @@ export default function FacilityPage() {
           onChange={handleChange}
           sx={{ mb: 2 }}
         >
-          {organizations?.results.map((organization: Organization) => {
+          {organizations?.map((organization: Organization) => {
             return (
               <MenuItem value={organization.id} key={organization.id}>
                 {organization.business_legal_name}
