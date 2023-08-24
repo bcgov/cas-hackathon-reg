@@ -99,10 +99,11 @@ export default function FacilityPage() {
       };
       await addFacility(updatedFormData)
         .unwrap()
-        .then((res) =>
+        .then((res) => {
           // Update facilities state with the new facility
-          setFacilities((prevFacilities) => [...prevFacilities, res])
-        );
+          setFacilities((prevFacilities) => [...prevFacilities, res]);
+          setShowFacilityForm(false);
+        });
       // .then(() => {
       //   refetch();
       //   setFacilities(
@@ -131,6 +132,8 @@ export default function FacilityPage() {
       body: JSON.stringify(updatedFormData),
     }).then((response) => {
       console.log("response", response);
+
+      setShowEditForm(false);
       return response.json();
     });
   };
