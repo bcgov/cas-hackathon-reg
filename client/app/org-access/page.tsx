@@ -19,7 +19,7 @@ const schema: RJSFSchema = {
 const log = (type: any) => console.log.bind(console, type);
 export default function AccessRequest() {
   const userOrganizationEndpoint = "http://127.0.0.1:8000/user_organizations/";
-  const userEndpoint = `http://127.0.0.1:8000/users/${1}`;
+  /* const userEndpoint = `http://127.0.0.1:8000/users/${user_id}`;
 
   useEffect(() => {
     fetch(userEndpoint)
@@ -27,7 +27,7 @@ export default function AccessRequest() {
       .then((data) => {
         console.log(data);
       });
-  }, []);
+  }, []); */
 
   const submitHandler = (data: any) => {
     fetch(userOrganizationEndpoint, {
