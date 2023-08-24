@@ -107,7 +107,7 @@ def dump_database(project: str, pod: str, database: str, schema: str) -> List[st
         csv_file = '/tmp/{}.csv'.format(table)
         files.append(csv_file)
         sql_cmd = ('psql {database} -c "copy (SELECT * FROM {schema}.{table}) to '
-            '\'{csv_file}\' with csv"\n'.format(database=database, schema=schema, table=table, csv_file=csv_file))
+            '\'{csv_file}\' with csv header"\n'.format(database=database, schema=schema, table=table, csv_file=csv_file))
         print('running {}'.format(sql_cmd))
         process.stdin.write(sql_cmd)
         process.stdin.flush()
