@@ -22,7 +22,7 @@ export default function AccessRequest() {
   /* const userEndpoint = `http://127.0.0.1:8000/users/${user_id}`;
 
   useEffect(() => {
-    fetch(userEndpoint)
+    (userEndpoint)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
