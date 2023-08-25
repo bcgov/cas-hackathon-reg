@@ -94,10 +94,10 @@ export default function Organizations() {
   return (
     <>
       <h1>Organization List</h1>
-      {(!userOrganizations || userOrganizations.results.length === 0) && (
+      {(!userOrganizations || userOrganizations.length === 0) && (
         <>no user organizations in app</>
       )}
-      {userOrganizations?.results.map((org: UserOrganization) => (
+      {userOrganizations?.map((org: UserOrganization) => (
         <div key={org.id}>
           <h2>{org.organization_id.business_legal_name}</h2>
           <Form

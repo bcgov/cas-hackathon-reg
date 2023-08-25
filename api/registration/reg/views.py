@@ -1,6 +1,6 @@
 
-from .serializers import RequestAccessSerializer, UserSerializer, OrganizationSerializer, ApproveOrDenySerializer
-from .models import User, UserOrganization
+from .serializers import FacilitySerializer, NestedOrganizationSerializer, RequestAccessSerializer, UserSerializer, OrganizationSerializer, ApproveOrDenySerializer
+from .models import Facility, User, UserOrganization
 from rest_framework import viewsets, generics
 from django.shortcuts import render
 from django.http.response import JsonResponse
@@ -102,6 +102,15 @@ class OrganizationPartialUpdateView(generics.UpdateAPIView):
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
 
+class FacilityViewSet(viewsets.ModelViewSet):
+    queryset = Facility.objects.all()
+    serializer_class = FacilitySerializer
+
+
+class NestedOrganizationViewSet(viewsets.ModelViewSet):
+    queryset = Organization.objects.order_by("id")
+    serializer_class = NestedOrganizationSerializer
+    
 class SpecificUserOrganizationViewSet(viewsets.ModelViewSet):
     # mock organzation_id is 1 in client (mockUser.ts)
     queryset = UserOrganization.objects.filter(organization_id=1)

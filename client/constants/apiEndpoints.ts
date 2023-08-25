@@ -5,4 +5,6 @@ export const USER_ORGANIZATIONS_ENDPOINT = "/user_organizations/";
 export const USER_ORGANIZATIONS_ORG_ID_ENDPOINT = "/user_organizations/?organization_id_id";
 export const USER_ORGANIZATIONS_USER_ID_ENDPOINT = "/user_organizations/?user_id_id";
 export const NESTED_USER_ORGANIZATIONS_ENDPOINT = "/nested_user_organizations/";
+export const NESTED_ORGANIZATIONS_ENDPOINT = "/nested_organizations/";
+export const FACILITIES_ENDPOINT = "/facilities/";
 export const MANAGE_USERS_ENDPOINT = "/manage_users/";

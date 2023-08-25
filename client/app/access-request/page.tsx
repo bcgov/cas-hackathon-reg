@@ -35,20 +35,18 @@ export default function AccessRequest() {
   const { data: users, isLoading: isLoadingUsers } = useGetUsersQuery();
   const { data: organizations, isLoading: isLoadingOrganizations } =
     useGetOrganizationsQuery();
-
+  console.log("organizations", organizations);
   const localSchema = JSON.parse(JSON.stringify(schema));
   if (!isLoadingUsers && !isLoadingOrganizations) {
-    localSchema.properties.organization_id.anyOf = organizations?.results.map(
-      (org) => {
-        return {
-          type: "number",
-          title: org.business_legal_name,
-          enum: [org.id],
-          value: org.id,
-        };
-      }
-    );
-    localSchema.properties.user_id.anyOf = users?.results.map((user) => {
+    localSchema.properties.organization_id.anyOf = organizations?.map((org) => {
+      return {
+        type: "number",
+        title: org.business_legal_name,
+        enum: [org.id],
+        value: org.id,
+      };
+    });
+    localSchema.properties.user_id.anyOf = users?.map((user) => {
       return {
         type: "number",
         title: `${user.first_name} ${user.last_name}`,

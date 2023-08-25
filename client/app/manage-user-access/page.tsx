@@ -83,10 +83,10 @@ export default function ManageUserAccess() {
   return (
     <>
       <h1>Manage User Access</h1>
-      {(!userOrganizations || userOrganizations.results.length) === 0 && (
+      {(!userOrganizations || userOrganizations.length) === 0 && (
         <>no users have requested access to this organization</>
       )}
-      {userOrganizations?.results.map((org: UserOrganization) => (
+      {userOrganizations?.map((org: UserOrganization) => (
         <div key={org.id}>
           <h2>
             {org.user_id.first_name} {org.user_id.last_name}
